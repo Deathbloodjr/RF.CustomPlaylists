@@ -100,6 +100,7 @@ namespace CustomPlaylists.Plugins
                     for (int i = 0; i < songIds.Count; i++)
                     {
                         var musicInfo = musicData.GetInfoById(songIds[i]);
+                        // If null is added to the list, the game will softlock
                         if (musicInfo != null)
                         {
                             results.Add(musicInfo);
