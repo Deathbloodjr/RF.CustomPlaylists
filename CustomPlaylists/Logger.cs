@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModTemplate
+namespace CustomPlaylists
 {
     public enum LogType
     {
@@ -39,7 +39,7 @@ namespace ModTemplate
                     break;
                 case LogType.Debug:
 #if DEBUG
-                    Plugin.Log.LogDebug(value);
+                    Plugin.Log.LogInfo(value);
 #endif
                     break;
             }
