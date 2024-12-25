@@ -51,9 +51,9 @@ namespace CustomPlaylists.Plugins
         /// </summary>
         public Color TextUnderlayColor = Color.white;
 
-        public CategoryPanelMusicInfoCallback? CallbackMusicInfo = null;
-        public CategoryPanelSongIdCallback? CallbackSongId = null;
-        public CategoryPanelUniqueIdCallback? CallbackUniqueId = null;
+        CategoryPanelMusicInfoCallback? CallbackMusicInfo = null;
+        CategoryPanelSongIdCallback? CallbackSongId = null;
+        CategoryPanelUniqueIdCallback? CallbackUniqueId = null;
 
         public void InitializeCallback(CategoryPanelMusicInfoCallback Callback)
         {
@@ -129,6 +129,19 @@ namespace CustomPlaylists.Plugins
                 }
                 return results;
             }
+        }
+
+        internal bool Validate()
+        {
+            if (CallbackMusicInfo == null &&
+                CallbackSongId == null &&
+                CallbackUniqueId == null)
+            {
+                Logger.Log("Category Panel must have assigned Callback");
+                return false;
+            }
+
+            return true;
         }
     }
 }

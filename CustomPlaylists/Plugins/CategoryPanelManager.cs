@@ -16,6 +16,11 @@ namespace CustomPlaylists.Plugins
 
         public static void AddCategoryPanel(CategoryPanelData categoryPanelData)
         {
+            if (!categoryPanelData.Validate())
+            {
+                return;
+            }
+
             CategoriesToAdd.Add(categoryPanelData);
 
             if (CategoryPanelPatch.CategoryPanelData != null)
