@@ -25,7 +25,7 @@ namespace CustomPlaylists.Plugins
         /// Minimum 100<br />
         /// Maximum Unknown, 900 works, possibly int.MaxValue
         /// </summary>
-        public int GenreId;
+        public int GenreId = -1;
         public string Name = string.Empty;
         public ThemeTypes ThemeId = ThemeTypes.Library;
         public int Order = 0;
@@ -66,6 +66,11 @@ namespace CustomPlaylists.Plugins
         public void InitializeCallback(CategoryPanelUniqueIdCallback Callback)
         {
             CallbackUniqueId = Callback;
+        }
+
+        public void AddToManager()
+        {
+            CategoryPanelManager.AddCategoryPanel(this);
         }
 
         internal CategoryPanelDataInterface.CategoryPanelInfoAccessor CreateCategoryPanel()

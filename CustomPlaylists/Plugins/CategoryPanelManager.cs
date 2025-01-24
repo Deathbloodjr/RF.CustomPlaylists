@@ -61,17 +61,66 @@ namespace CustomPlaylists.Plugins
             //}
         }
 
+
+
         internal static void AddCategoryPanels()
         {
             var panelData = CategoryPanelPatch.CategoryPanelData;
             for (int i = 0; i < CategoriesToAdd.Count; i++)
             {
+                if (!IsGenreAvailable(CategoriesToAdd[i].GenreId))
+                {
+                    var newGenre = GetNextAvailableGenre();
+                    if (newGenre == -1)
+                    {
+                        Logger.Log("No GenreId Available somehow. Something went wrong.");
+                    }
+                    else
+                    {
+                        CategoriesToAdd[i].GenreId = newGenre;
+                    }
+                }
+
                 var category = CategoriesToAdd[i].CreateCategoryPanel();
                 panelData.CategoryPanelInfoAccessers.Add(category);
                 panelData.GenerFilterPairs.Add(category.Genre, (FilterTypes)category.Genre);
 
                 CategoryPanels.Add(category.Genre, CategoriesToAdd[i]);
+
+                // To make sure categories are only added once
+                CategoriesToAdd.RemoveAt(i);
+                i--;
             }
+        }
+
+        internal static bool IsGenreAvailable(int genre)
+        {
+            if (genre == -1)
+            {
+                return false;
+            }
+            var panelData = CategoryPanelPatch.CategoryPanelData;
+            var panels = panelData.CategoryPanelInfoAccessers;
+            for (int i = 0; i < panels.Count; i++)
+            {
+                if (panels[i].Genre == genre)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        internal static int GetNextAvailableGenre()
+        {
+            for (int i = 5000; i < int.MaxValue; i++)
+            {
+                if (IsGenreAvailable(i))
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
     }
 }
