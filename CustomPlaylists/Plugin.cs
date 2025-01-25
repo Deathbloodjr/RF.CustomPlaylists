@@ -21,6 +21,7 @@ namespace CustomPlaylists
 
 
         public ConfigEntry<bool> ConfigEnabled;
+        public ConfigEntry<string> ConfigCustomPlaylistDirectory;
 
 
 
@@ -42,6 +43,11 @@ namespace CustomPlaylists
                 "Enabled",
                 true,
                 "Enables the mod.");
+
+            ConfigCustomPlaylistDirectory = Config.Bind("General",
+                "CustomPlaylistDirectory",
+                Path.Combine(dataFolder, "Playlists"),
+                "The directory containing custom playlists to be loaded.");
         }
 
         private void SetupHarmony()
@@ -57,6 +63,7 @@ namespace CustomPlaylists
                 result &= PatchFile(typeof(XmlSavePatch));
                 if (result)
                 {
+                    CustomPlaylistJsonLoading.LoadCustomPlaylists();
                     Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_NAME} is loaded!");
                 }
                 else
