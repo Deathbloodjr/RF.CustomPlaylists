@@ -34,7 +34,7 @@ namespace CustomPlaylists.Plugins
         [HarmonyPrefix]
         public static void SongScroller_CreateItemList_Prefix(SongScroller __instance, Il2CppSystem.Collections.Generic.List<MusicDataInterface.MusicInfoAccesser> list)
         {
-            Logger.Log("SongScroller_CreateItemList_Prefix");
+            //Logger.Log("SongScroller_CreateItemList_Prefix");
             if (CategoryPanelManager.CategoryPanels.ContainsKey((int)__instance.filter))
             {
                 var panel = CategoryPanelManager.CategoryPanels[(int)__instance.filter];
@@ -83,13 +83,13 @@ namespace CustomPlaylists.Plugins
         [HarmonyPostfix]
         public static void SongSelectUtility_IsLibaray_Postfix(FilterTypes filter, ref bool __result)
         {
-            Logger.Log("SongSelectUtility_IsLibaray_Postfix");
-            Logger.Log("__result: " + __result);
+            //Logger.Log("SongSelectUtility_IsLibaray_Postfix");
+            //Logger.Log("__result: " + __result);
 
             if (CategoryPanelManager.CategoryPanels.ContainsKey((int)filter))
             {
                 __result = CategoryPanelManager.CategoryPanels[(int)filter].ThemeId == ThemeTypes.Library;
-                Logger.Log("Updated __result: " + __result);
+                //Logger.Log("Updated __result: " + __result);
             }
         }
 
