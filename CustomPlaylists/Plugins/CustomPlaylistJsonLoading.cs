@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -18,18 +20,23 @@ namespace CustomPlaylists.Plugins
             if (!dirInfo.Exists)
             {
                 Directory.CreateDirectory(Plugin.Instance.ConfigCustomPlaylistDirectory.Value);
-                return;
+                CreateTemplateJson();
             }
 
+            bool templateFound = false;
             var files = dirInfo.GetFiles("*.json", SearchOption.AllDirectories);
             for (int i = 0; i < files.Length; i++)
             {
                 if (files[i].Name == "Template.json")
                 {
-                    continue;
+                    templateFound = true;
                 }
-
                 LoadPlaylist(files[i].FullName);
+            }
+            if (!templateFound)
+            {
+                CreateTemplateJson();
+                LoadPlaylist(Path.Combine(Plugin.Instance.ConfigCustomPlaylistDirectory.Value, "Template.json"));
             }
         }
 
@@ -106,6 +113,122 @@ namespace CustomPlaylists.Plugins
 
             panel.InitializeCallback(delegate { return songIds; });
             panel.AddToManager();
+        }
+
+        static void CreateTemplateJson()
+        {
+            JsonObject obj = new JsonObject()
+            {
+                ["Name"] = "Template",
+                ["Enabled"] = false,
+                ["CategoryPanelData"] = new JsonObject()
+                {
+                    ["Name"] = "Base Game",
+                    ["BgColor"] = "#F7F1E1",
+                    ["FrameType"] = "SingleColor",
+                    ["FrameColor"] = "#B8DCF2",
+                    ["Order"] = 60,
+                },
+                ["SongIds"] = new JsonArray()
+                {
+                    "natsu",
+                    "twcfsp",
+                    "ddudu",
+                    "ohdlov",
+                    "yoruk2",
+                    "yrsda2",
+                    "mrgold",
+                    "mgaaot",
+                    "zense",
+                    "xjapan",
+                    "ohdmi2",
+                    "kimetu",
+                    "eveka2",
+                    "anaint",
+                    "shing2",
+                    "dora4",
+                    "eva",
+                    "digmon",
+                    "smoon2",
+                    "dball2",
+                    "totoro",
+                    "snhero",
+                    "roki",
+                    "gumikg",
+                    "vfvill",
+                    "gumids",
+                    "vfshrr",
+                    "tmbeat",
+                    "csmclr",
+                    "csmmon",
+                    "pirate",
+                    "pixelg",
+                    "fdive",
+                    "mope",
+                    "th7171",
+                    "thflnd",
+                    "astero",
+                    "clsw",
+                    "clsbu",
+                    "clsmil",
+                    "cls12r",
+                    "clsff",
+                    "clscam",
+                    "rockmw",
+                    "monhnw",
+                    "p5last",
+                    "p5life",
+                    "udtmgl",
+                    "pacm40",
+                    "kata",
+                    "klwind",
+                    "crtesc",
+                    "syairl",
+                    "sw2op",
+                    "ssn3rd",
+                    "cs7op",
+                    "kumokn",
+                    "kappa",
+                    "yumeut",
+                    "fmod",
+                    "insidm",
+                    "solstr",
+                    "hold",
+                    "1234dk",
+                    "nijbtn",
+                    "ptptpk",
+                    "ponpok",
+                    "8ka7ki",
+                    "vixtor",
+                    "dptfct",
+                    "zerosy",
+                    "flyagn",
+                    "gnkcrt",
+                    "freewy",
+                    "ai7ndz",
+                    "tkmdst",
+                    "lactea",
+                    "struck",
+                    "dragoo",
+                    "ycoast",
+                    "goget",
+                    "59shin",
+                    "kalice",
+                    "mnpure",
+                    "hayabu",
+                    "tokkyo",
+                    "7fuku"
+                },
+            };
+
+
+            JsonSerializerOptions options = new JsonSerializerOptions()
+            {
+                WriteIndented = true,
+                //Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+            };
+            string outputPath = Path.Combine(Plugin.Instance.ConfigCustomPlaylistDirectory.Value, "Template.json");
+            File.WriteAllText(outputPath, obj.ToJsonString(options));
         }
     }
 }
