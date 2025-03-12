@@ -14,6 +14,8 @@ namespace CustomPlaylists.Plugins
 {
     internal class CustomPlaylistJsonLoading
     {
+        static List<CategoryPanelData> LoadedPlaylists = new List<CategoryPanelData>();
+
         public static void LoadCustomPlaylists()
         {
             var dirInfo = new DirectoryInfo(Plugin.Instance.ConfigCustomPlaylistDirectory.Value);
@@ -38,6 +40,22 @@ namespace CustomPlaylists.Plugins
                 CreateTemplateJson();
                 LoadPlaylist(Path.Combine(Plugin.Instance.ConfigCustomPlaylistDirectory.Value, "Template.json"));
             }
+        }
+
+        public static void UnloadCustomPlaylists()
+        {
+            for (int i = 0; i < LoadedPlaylists.Count; i++)
+            {
+                LoadedPlaylists[i].RemoveFromManager();
+                LoadedPlaylists.RemoveAt(0);
+                i--;
+            }
+        }
+
+        public static void ReloadCustomPlaylists()
+        {
+            UnloadCustomPlaylists();
+            LoadCustomPlaylists();
         }
 
         static void LoadPlaylist(string filePath)
@@ -113,6 +131,7 @@ namespace CustomPlaylists.Plugins
 
             panel.InitializeCallback(delegate { return songIds; });
             panel.AddToManager();
+            LoadedPlaylists.Add(panel);
         }
 
         static void CreateTemplateJson()

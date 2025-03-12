@@ -55,6 +55,8 @@ namespace CustomPlaylists.Plugins
         CategoryPanelSongIdCallback? CallbackSongId = null;
         CategoryPanelUniqueIdCallback? CallbackUniqueId = null;
 
+        CategoryPanelDataInterface.CategoryPanelInfoAccessor? accessor = null;
+
         public void InitializeCallback(CategoryPanelMusicInfoCallback Callback)
         {
             CallbackMusicInfo = Callback;
@@ -73,20 +75,28 @@ namespace CustomPlaylists.Plugins
             CategoryPanelManager.AddCategoryPanel(this);
         }
 
+        public void RemoveFromManager()
+        {
+            CategoryPanelManager.RemoveCategoryPanel(this);
+        }
+
         internal CategoryPanelDataInterface.CategoryPanelInfoAccessor CreateCategoryPanel()
         {
-            var result = new CategoryPanelDataInterface.CategoryPanelInfoAccessor(GenreId,
-                                                                                  (int)ThemeId,
-                                                                                  Order,
-                                                                                  "custom_category_empty_string",
-                                                                                  BgType,
-                                                                                  "#" + ColorUtility.ToHtmlStringRGB(BgColor),
-                                                                                  (int)FrameType,
-                                                                                  "#" + ColorUtility.ToHtmlStringRGB(FrameColor),
-                                                                                  "#" + ColorUtility.ToHtmlStringRGB(TextFaceColor),
-                                                                                  "#" + ColorUtility.ToHtmlStringRGB(TextUnderlayColor));
+            if (accessor is null)
+            {
+                accessor = new CategoryPanelDataInterface.CategoryPanelInfoAccessor(GenreId,
+                                                                                    (int)ThemeId,
+                                                                                    Order,
+                                                                                    "custom_category_empty_string",
+                                                                                    BgType,
+                                                                                    "#" + ColorUtility.ToHtmlStringRGB(BgColor),
+                                                                                    (int)FrameType,
+                                                                                    "#" + ColorUtility.ToHtmlStringRGB(FrameColor),
+                                                                                    "#" + ColorUtility.ToHtmlStringRGB(TextFaceColor),
+                                                                                    "#" + ColorUtility.ToHtmlStringRGB(TextUnderlayColor));
+            }
 
-            return result;
+            return accessor;
         }
 
         internal List<MusicDataInterface.MusicInfoAccesser> GetMusicInfos()

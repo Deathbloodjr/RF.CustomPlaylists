@@ -84,12 +84,31 @@ namespace CustomPlaylists.Plugins
                 var category = CategoriesToAdd[i].CreateCategoryPanel();
                 panelData.CategoryPanelInfoAccessers.Add(category);
                 panelData.GenerFilterPairs.Add(category.Genre, (FilterTypes)category.Genre);
-
                 CategoryPanels.Add(category.Genre, CategoriesToAdd[i]);
+                Logger.Log("Custom Playlist added: " + CategoriesToAdd[i].Name);
 
                 // To make sure categories are only added once
                 CategoriesToAdd.RemoveAt(i);
                 i--;
+            }
+        }
+
+        internal static void RemoveCategoryPanel(CategoryPanelData categoryPanelData)
+        {
+            CategoriesToAdd.Remove(categoryPanelData);
+
+            var panelData = CategoryPanelPatch.CategoryPanelData;
+            var category = categoryPanelData.CreateCategoryPanel();
+
+            if (panelData.CategoryPanelInfoAccessers.Remove(category))
+            {
+                panelData.GenerFilterPairs.Remove(category.Genre);
+                CategoryPanels.Remove(category.Genre);
+                Logger.Log("Successfully removed custom playlist: " + categoryPanelData.Name, LogType.Debug);
+            }
+            else
+            {
+                Logger.Log("Error removing custom playlist: " + categoryPanelData.Name);
             }
         }
 
@@ -122,5 +141,7 @@ namespace CustomPlaylists.Plugins
             }
             return -1;
         }
+
+
     }
 }
