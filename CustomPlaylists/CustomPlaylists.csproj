@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <ModName>CustomPlaylists</ModName>
-    <ModVersion>1.0.0</ModVersion>
+    <ModVersion>1.1.0</ModVersion>
     <Description>A Rhythm Festival mod to create custom playlists.</Description>
   </PropertyGroup>
   
@@ -33,6 +33,7 @@
   <ItemGroup>
     <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.697" />
     <Reference Include="$(GameDir)\BepInEx\interop\*.dll" Private="false" />
+    <Reference Include="$(SaveProfileManagerPath)" Private="false" />
     <PackageReference Include="BepInEx.Analyzers" Version="1.0.8" PrivateAssets="all" />
     <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0" />
   </ItemGroup>
