@@ -75,6 +75,8 @@ namespace CustomPlaylists
         {
             bool apiResult = true;
 
+            // These need to be enabled no matter what
+            // Especially XmlSavePatch, the save could break otherwise
             apiResult &= Instance.PatchFile(typeof(CategoryPanelPatch));
             apiResult &= Instance.PatchFile(typeof(XmlSavePatch));
 
@@ -154,7 +156,7 @@ namespace CustomPlaylists
             plugin.AssignUnloadFunction(UnloadPlugin);
             plugin.AssignReloadSaveFunction(ReloadPlugin);
             plugin.AssignConfigSetupFunction(SetupConfig);
-            plugin.AddToManager();
+            plugin.AddToManager(ConfigEnabled.Value);
             //Logger.Log("Plugin added to SaveDataManager");
         }
 
