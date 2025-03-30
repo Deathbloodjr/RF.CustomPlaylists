@@ -154,7 +154,7 @@ namespace CustomPlaylists
             plugin.AssignUnloadFunction(UnloadPlugin);
             plugin.AssignReloadSaveFunction(ReloadPlugin);
             plugin.AssignConfigSetupFunction(SetupConfig);
-            plugin.AddToManager();
+            plugin.AddToManager(ConfigEnabled.Value);
             //Logger.Log("Plugin added to SaveDataManager");
         }
 

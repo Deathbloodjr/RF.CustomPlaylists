@@ -23,7 +23,7 @@ namespace CustomPlaylists.Plugins
             if (__instance.CategoryPanelData != null)
             {
                 CategoryPanelData = __instance.CategoryPanelData;
-                //CategoryPanelManager.AddCategoryPanels();
+                CategoryPanelManager.AddCategoryPanels();
             }
         }
 
@@ -69,10 +69,8 @@ namespace CustomPlaylists.Plugins
         [HarmonyPrefix]
         public static bool SongSelectUtility_FilterToTheme_Prefix(ref ThemeTypes __result, FilterTypes filter)
         {
-            Logger.Log("SongSelectUtility_FilterToTheme_Prefix", LogType.Debug);
             if (CategoryPanelManager.CategoryPanels.ContainsKey((int)filter))
             {
-                Logger.Log("Custom Playlist", LogType.Debug);
                 var panel = CategoryPanelManager.CategoryPanels[(int)filter];
                 __result = panel.ThemeId;
             }
@@ -80,7 +78,6 @@ namespace CustomPlaylists.Plugins
             {
                 // I wish I didn't have to basically rewrite their function
                 // But as long as it doesn't crash, we should be fine
-                Logger.Log("Original Playlist", LogType.Debug);
                 if (filter < FilterTypes.MusicPass || filter == FilterTypes.AcquiredCrown)
                 {
                     __result = ThemeTypes.Library;
